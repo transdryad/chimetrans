@@ -32,6 +32,6 @@ tasks.test {
 
 tasks.jar {
     manifest {
-        attributes("Main-Class" to "org.hazelv.chimetrans.Main")
+        attributes("Main-Class" to "org.hazelv.chime.trans.Main")
     }
 }

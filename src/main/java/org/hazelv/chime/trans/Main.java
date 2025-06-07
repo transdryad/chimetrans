@@ -1,12 +1,12 @@
-package org.hazelv.chimetrans;
+package org.hazelv.chime.trans;
 
 import javax.sound.midi.*;
 import java.io.File;
 import java.util.*;
 import java.util.stream.Collectors;
 
-import org.hazelv.chime.NoteName;
-import static org.hazelv.chime.Main.chordMap;
+import org.hazelv.chime.lang.NoteName;
+import static org.hazelv.chime.lang.Main.chordMap;
 
 public class Main {
     public static File sourceFile;
@@ -42,7 +42,7 @@ public class Main {
         }
         try {
             chordMap = new HashMap<>();
-            org.hazelv.chime.Main.registerDefaultChords();
+            org.hazelv.chime.lang.Main.registerDefaultChords();
 
             sequence = new Sequence(Sequence.PPQ, 24);
             track = sequence.createTrack();
