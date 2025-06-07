@@ -1,0 +1,1 @@
+In honor of pride month, a transpiler from c-like pseudocode to  Chime.
