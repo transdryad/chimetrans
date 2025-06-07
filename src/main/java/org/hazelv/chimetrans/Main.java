@@ -58,9 +58,10 @@ public class Main {
         for (NoteName note : notes) {
             MidiEvent noteOn = new MidiEvent(new ShortMessage(ShortMessage.NOTE_ON, 0, note.ordinal(), 80), programCounter);
             track.add(noteOn);
-            MidiEvent noteOff = new MidiEvent(new ShortMessage(ShortMessage.NOTE_ON, 0, note.ordinal(), 0), programCounter + 1);
+            MidiEvent noteOff = new MidiEvent(new ShortMessage(ShortMessage.NOTE_OFF, 0, note.ordinal(), 0), programCounter + 1);
             track.add(noteOff);
         }
+        programCounter++;
     }
 
     public static <T, E> T getKeysByValue(Map<T, E> map, E value) {
