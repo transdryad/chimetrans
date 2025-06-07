@@ -2,6 +2,9 @@ package org.hazelv.chime.trans;
 
 import javax.sound.midi.*;
 import java.io.File;
+import java.nio.charset.Charset;
+import java.nio.file.Files;
+import java.nio.file.Paths;
 import java.util.*;
 import java.util.stream.Collectors;
 
@@ -14,6 +17,8 @@ public class Main {
     public static Sequence sequence;
     public static Track track;
     private static int programCounter = 0;
+    public static String inputString;
+    public static Scanner scanner;
 
     public static void main(String[] args) throws IllegalArgumentException {
         if (!(args.length > 0)) {
@@ -43,9 +48,15 @@ public class Main {
         try {
             chordMap = new HashMap<>();
             org.hazelv.chime.lang.Main.registerDefaultChords();
-
             sequence = new Sequence(Sequence.PPQ, 24);
             track = sequence.createTrack();
+
+            byte[] bytes = Files.readAllBytes(Paths.get(sourceFile.getPath()));
+            inputString = new String(bytes, Charset.defaultCharset());
+
+            scanner = new Scanner(inputString);
+            List<Token> tokens = scanner.scanTokens();
+
             //do all the languagey things
             MidiSystem.write(sequence, 1, outputFile);
         } catch (Exception e) {
