@@ -1,6 +1,6 @@
 //Use FileIO.jar
 
-def exp(base, power) {
+fun exp(base, power) {
     var i = 0;
     while (i < (power - 1)) {
         base = base * base;
@@ -8,7 +8,7 @@ def exp(base, power) {
     return base;
 }
 
-var expTest = exp(2, 8);
+var expTest = exp(2, 8)
 if (expTest == 256) {
     println("Success!!!!");
 }

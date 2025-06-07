@@ -1,3 +1,3 @@
-In honor of pride month, a transpiler from c-like pseudocode to Chime.
+In honor of pride month, a transpiler from c-like pseudocode (specifically non-oop Lox with a few edits) to Chime.
 
-Developed while reading Engineering A Compiler by Kieth D. Cooper & Linda Torczon. This book provides no code samples.
+Much of the 'front end' is based on Crafting Interpreters's jlox. However, everything after scanning and parsing is mine.

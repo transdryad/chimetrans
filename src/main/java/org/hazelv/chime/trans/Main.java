@@ -39,7 +39,7 @@ public class Main {
                 }
             }
         }
-        if (!outputFile.exists()) {
+        if (!(outputFile == null)) {
             outputFile = new File("o.mid");
         }
         if (!sourceFile.exists()) {
@@ -56,9 +56,9 @@ public class Main {
 
             scanner = new Scanner(inputString);
             List<Token> tokens = scanner.scanTokens();
-
+            System.out.println(tokens);
             //do all the languagey things
-            MidiSystem.write(sequence, 1, outputFile);
+            //MidiSystem.write(sequence, 1, outputFile);
         } catch (Exception e) {
             System.err.println("Error: " + e.getMessage());
         }
