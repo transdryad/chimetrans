@@ -21,7 +21,7 @@ public class Main {
     public static Track track;
     private static int programCounter = 0;
     public static String inputString;
-    public static int stackNum = 0;
+    public static HashMap<String, Integer> labels;
 
     public static void main(String[] args) throws IllegalArgumentException {
         if (!(args.length > 0)) {
@@ -42,7 +42,7 @@ public class Main {
                 }
             }
         }
-        if (!(outputFile == null)) {
+        if (outputFile == null) {
             outputFile = new File("o.mid");
         }
         if (!sourceFile.exists()) {
@@ -60,6 +60,7 @@ public class Main {
             String[] lines = inputString.split("\n");
             for (String line : lines) {
                 String[] parts = line.split(" ");
+                System.out.println(Arrays.toString(parts));
                 for (String part : parts) {
                     switch (part) {
                         case "bgn": // start header
@@ -114,8 +115,12 @@ public class Main {
                         default:
                             if (Pattern.compile("^\\d+$").matcher(part).find()) { // number
                                 addNote(NoteName.values()[Integer.parseInt(part)], false);
+                            } else if (Pattern.compile("^_.*:$").matcher(part).find()) {
+                                labels.put(part, programCounter);
+                            } else if (Pattern.compile("^_.*").matcher(part).find()) {
+                                addNote(NoteName.values()[labels.get(part)], false);
                             } else {
-                                throw new IllegalArgumentException("Not a valid argument literal: not a number.");
+                                throw new IllegalArgumentException("Invalid.");
                             }
                     }
                 }
@@ -124,6 +129,7 @@ public class Main {
             MidiSystem.write(sequence, 1, outputFile);
         } catch (Exception e) {
             System.err.println("Error: " + e.getMessage());
+            e.printStackTrace();
         }
     }
 
@@ -132,7 +138,7 @@ public class Main {
         for (NoteName note : notes) {
             addNote(note, true);
         }
-        programCounter+= 2;
+        programCounter++;
     }
 
     public static <T, E> T getKeysByValue(Map<T, E> map, E value) {
@@ -149,7 +155,7 @@ public class Main {
         MidiEvent noteOff = new MidiEvent(new ShortMessage(ShortMessage.NOTE_OFF, 0, note.ordinal(), 0), programCounter + 1);
         track.add(noteOff);
         if (!inChord) {
-            programCounter+= 2;
+            programCounter++;
         }
     }
 }
