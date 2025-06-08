@@ -1,16 +1,16 @@
 bgn
-add 5 7;
-prt;
-pln;
-pch;
-sub;
-mul;
-div;
-psh;
-pop;
-jmp;
-jeq;
-evl;
-ldi;
-cv;
-imp;
+add 5 7
+prt
+pln
+pch
+sub
+mul
+div
+psh
+pop
+jmp
+jeq
+evl
+ldi
+cva
+ipt

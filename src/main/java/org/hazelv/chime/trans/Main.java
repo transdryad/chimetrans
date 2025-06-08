@@ -57,23 +57,63 @@ public class Main {
             byte[] bytes = Files.readAllBytes(Paths.get(sourceFile.getPath()));
             inputString = new String(bytes, Charset.defaultCharset());
 
-            String[] lines = inputString.split(";");
+            String[] lines = inputString.split("\n");
             for (String line : lines) {
                 String[] parts = line.split(" ");
-                for (int  i = 0; i < parts.length; i++) {
-                    String part = parts[i];
+                for (String part : parts) {
                     switch (part) {
-                        case "add":
+                        case "bgn": // start header
+                            addChord(StartChord.class);
+                            addChord(Start2Chord.class);
+                            break;
+                        case "ldi": // Load Immediate or hold
+                            addChord(HoldChord.class);
+                            break;
+                        case "add": // math
                             addChord(AddChord.class);
+                            break;
                         case "sub":
                             addChord(SubtractChord.class);
+                            break;
                         case "mul":
                             addChord(MultiplyChord.class);
+                            break;
                         case "div":
                             addChord(DivideChord.class);
+                            break;
+                        case "prt": // IO
+                            addChord(PrintChord.class);
+                            break;
+                        case "pln":
+                            addChord(PrintChord.class);
+                            break;
+                        case "pch":
+                            addChord(PrintCharChord.class);
+                            break;
+                        case "ipt":
+                            addChord(InputChord.class);
+                            break;
+                        case "cva": //current value
+                            addChord(CurrentValChord.class);
+                            break;
+                        case "evl": //Control Flow
+                            addChord(EvalChord.class);
+                            break;
+                        case "jmp":
+                            addChord(JumpChord.class);
+                            break;
+                        case "jeq":
+                            addChord(JumpIfChord.class);
+                            break;
+                        case "psh":
+                            addChord(PushChord.class);
+                            break;
+                        case "pop":
+                            addChord(PopChord.class);
+                            break;
                         default:
                             if (Pattern.compile("^\\d+$").matcher(part).find()) { // number
-                                addNote(NoteName.values()[Integer.parseInt(part)]);
+                                addNote(NoteName.values()[Integer.parseInt(part)], false);
                             } else {
                                 throw new IllegalArgumentException("Not a valid argument literal: not a number.");
                             }
@@ -81,7 +121,6 @@ public class Main {
                 }
             }
 
-            //do all the languagey things
             MidiSystem.write(sequence, 1, outputFile);
         } catch (Exception e) {
             System.err.println("Error: " + e.getMessage());
@@ -91,8 +130,9 @@ public class Main {
     public static void addChord(Class<?> chordType) throws InvalidMidiDataException {
         List<NoteName> notes = getKeysByValue(chordMap, chordType);
         for (NoteName note : notes) {
-            addNote(note);
+            addNote(note, true);
         }
+        programCounter+= 2;
     }
 
     public static <T, E> T getKeysByValue(Map<T, E> map, E value) {
@@ -103,11 +143,13 @@ public class Main {
                 .collect(Collectors.toSet()).iterator().next();
     }
 
-    public static void addNote(NoteName note) throws InvalidMidiDataException {
+    public static void addNote(NoteName note, boolean inChord) throws InvalidMidiDataException {
         MidiEvent noteOn = new MidiEvent(new ShortMessage(ShortMessage.NOTE_ON, 0, note.ordinal(), 80), programCounter);
         track.add(noteOn);
         MidiEvent noteOff = new MidiEvent(new ShortMessage(ShortMessage.NOTE_OFF, 0, note.ordinal(), 0), programCounter + 1);
         track.add(noteOff);
-        programCounter+= 2;
+        if (!inChord) {
+            programCounter+= 2;
+        }
     }
 }
