@@ -9,6 +9,8 @@ import java.util.*;
 import java.util.stream.Collectors;
 
 import org.hazelv.chime.lang.NoteName;
+import org.hazelv.chime.lang.chords.*;
+
 import static org.hazelv.chime.lang.Main.chordMap;
 
 public class Main {
@@ -19,6 +21,7 @@ public class Main {
     private static int programCounter = 0;
     public static String inputString;
     public static Scanner scanner;
+    private static final Compiler compiler = new Compiler();
 
     public static void main(String[] args) throws IllegalArgumentException {
         if (!(args.length > 0)) {
@@ -53,10 +56,19 @@ public class Main {
 
             byte[] bytes = Files.readAllBytes(Paths.get(sourceFile.getPath()));
             inputString = new String(bytes, Charset.defaultCharset());
-
+            // Scan
             scanner = new Scanner(inputString);
             List<Token> tokens = scanner.scanTokens();
-            System.out.println(tokens);
+            //Parse into AST
+            Parser parser = new Parser(tokens);
+            Expr expression = parser.parse();
+            System.out.println(new AstPrinter().print(expression));
+
+            // Start header
+            addChord(StartChord.class);
+            addChord(Start2Chord.class);
+            //Compile & add
+            compiler.compile(expression);
             //do all the languagey things
             //MidiSystem.write(sequence, 1, outputFile);
         } catch (Exception e) {
