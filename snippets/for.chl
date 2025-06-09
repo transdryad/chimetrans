@@ -8,6 +8,6 @@ psh 1
 psh 2
 ;your code here
 pop 2
-evl cva 5 ; replace with num of reps.
+evl cva 30 ; replace with num of reps.
 jeq _loop 1
 pln

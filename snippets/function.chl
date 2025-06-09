@@ -4,10 +4,10 @@ psh 0
 jmp _func
 pop 1
 pch
-end
+end  ;endpoint of the program.
 
 _func:
-ldi 99 ;do stuff here
+;your code here
 psh 1 ;stack 1 is the return stack
 pop 0 ;stack 0 is the call stack.
 jmp cva

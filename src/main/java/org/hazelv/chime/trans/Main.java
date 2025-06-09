@@ -138,7 +138,7 @@ public class Main {
                         case "pop":
                             addChord(PopChord.class);
                             break;
-                        case "jid":
+                        case "jid": // Functions
                             addNote(NoteName.values()[programCounter + 5], false);
                             //System.out.println(programCounter + 5);
                             break;
