@@ -127,7 +127,7 @@ public class Main {
                                 addNote(NoteName.values()[labels.get(part)], false);
                             } else if (Pattern.compile("^;.*").matcher(part).find()) {
                                 comment = true;
-                            } else {
+                            } else if (!(part.equals(" ") || part.isEmpty() || part.equals("\n") ||  part.equals("\r\n") ||  part.equals("\t"))) {
                                 throw new IllegalArgumentException("Invalid.");
                             }
                     }
