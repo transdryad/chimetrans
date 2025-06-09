@@ -72,6 +72,7 @@ public class Main {
                         if (Pattern.compile("^_.*:$").matcher(part).find()) {
                             labels.put(part.substring(0, part.length() - 1), labelCounter);
                         }
+                        if (part.equals("end")) labelCounter++;
                         if (Pattern.compile("^;.*").matcher(part).find()) {
                             comment = true;
                         } else {
@@ -140,10 +141,11 @@ public class Main {
                             break;
                         case "jid":
                             addNote(NoteName.values()[programCounter + 5], false);
+                            System.out.println(programCounter + 5);
                             break;
                         case "end":
                             addChord(JumpChord.class);
-                            addNote(NoteName.values()[labelCounter], false);
+                            addNote(NoteName.values()[labelCounter - 1], false);
                             break;
                         default:
                             if (Pattern.compile("^_.*:$").matcher(part).find()) {
