@@ -1,0 +1,15 @@
+bgn
+ldi 88
+psh 3
+pop 3  ; or do anything else to get a value in currentVal
+evl cva 1
+jeq _if 1
+jeq _elif 2
+jmp _else
+_if:    ;put other things here.
+jmp _done
+_elif:
+jmp _done
+_else:
+jmp_done
+_done:
