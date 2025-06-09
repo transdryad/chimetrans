@@ -3,6 +3,19 @@ In honor of pride month, a transpiler/assembler from pseudo assembly code to Chi
 
 For examples of basic programming concepts implemented in this assembly, see the snippets folder or any file with a .chl extension.
 
+Supports java 21 and above.
+
+Copyright 2025 Hazel Viswanath <viswanath.hazel@gmail.com>.
+Licensed under GPL 3 or above.
+
+Chime-Trans is free software: you can redistribute it and/or modify it under the terms of the GNU General Public License as published by the Free Software Foundation, either version 3 of the License, or (at your option) any later version.
+
+Chime-Trans is distributed in the hope that it will be useful, but WITHOUT ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See LICENSE in the project root for more details.
+
+You should have received a copy of the GNU General Public License along with Chime-Trans. If not, see <https://www.gnu.org/licenses/>.
+
+The GPL also applies to the files within the snippets and libs directories.
+
 # Language reference:
 
 There is a hidden accumulator variable that is often used to store the result of instructions: currentVal.
