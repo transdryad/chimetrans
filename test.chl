@@ -1,3 +1,14 @@
 bgn
-add 5 7
-prt
+ldi 0
+psh 0
+_loop1:
+pop 0
+add cva 1
+psh 0
+psh 1
+ipt
+pch
+pop 1
+evl cva 5
+jeq _loop1 1
+pln

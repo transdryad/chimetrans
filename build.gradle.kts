@@ -15,6 +15,7 @@ dependencies {
     testImplementation("org.junit.jupiter:junit-jupiter")
     testRuntimeOnly("org.junit.platform:junit-platform-launcher")
     implementation(files("libs/chime-lang-1.0.1-all.jar"))
+    testImplementation(files("libs/chime-lang-1.0.1-all.jar"))
 }
 
 sourceSets {

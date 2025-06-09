@@ -21,7 +21,8 @@ public class Main {
     public static Track track;
     private static int programCounter = 0;
     public static String inputString;
-    public static HashMap<String, Integer> labels;
+    public static HashMap<String, Integer> labels =  new HashMap<>();
+    public static boolean now = false;
 
     public static void main(String[] args) throws IllegalArgumentException {
         if (!(args.length > 0)) {
@@ -32,6 +33,9 @@ public class Main {
                     case "-o":
                         outputFile = new File(args[++i]);
                         i++;
+                        break;
+                    case "--now":
+                        now = true;
                         break;
                     default:
                         if (sourceFile == null) {
@@ -46,7 +50,7 @@ public class Main {
             outputFile = new File("o.mid");
         }
         if (!sourceFile.exists()) {
-            throw new IllegalArgumentException("Source file does not exist.");
+            throw new IllegalArgumentException(sourceFile.getAbsolutePath() + " does not exist.");
         }
         try {
             chordMap = new HashMap<>();
@@ -60,7 +64,7 @@ public class Main {
             String[] lines = inputString.split("\n");
             for (String line : lines) {
                 String[] parts = line.split(" ");
-                System.out.println(Arrays.toString(parts));
+                //System.out.println(Arrays.toString(parts));
                 for (String part : parts) {
                     switch (part) {
                         case "bgn": // start header
@@ -86,7 +90,7 @@ public class Main {
                             addChord(PrintChord.class);
                             break;
                         case "pln":
-                            addChord(PrintChord.class);
+                            addChord(PrintLnChord.class);
                             break;
                         case "pch":
                             addChord(PrintCharChord.class);
@@ -116,7 +120,7 @@ public class Main {
                             if (Pattern.compile("^\\d+$").matcher(part).find()) { // number
                                 addNote(NoteName.values()[Integer.parseInt(part)], false);
                             } else if (Pattern.compile("^_.*:$").matcher(part).find()) {
-                                labels.put(part, programCounter);
+                                labels.put(part.substring(0, part.length() - 1), programCounter);
                             } else if (Pattern.compile("^_.*").matcher(part).find()) {
                                 addNote(NoteName.values()[labels.get(part)], false);
                             } else {
@@ -127,6 +131,9 @@ public class Main {
             }
 
             MidiSystem.write(sequence, 1, outputFile);
+            if (now) {
+                org.hazelv.chime.lang.Main.main(new String[]{outputFile.getPath()});
+            }
         } catch (Exception e) {
             System.err.println("Error: " + e.getMessage());
             e.printStackTrace();
