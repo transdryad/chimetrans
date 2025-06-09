@@ -81,7 +81,6 @@ public class Main {
                     }
                 }
             }
-            System.out.println(labels);
             for (int i = 0;  i < lines.length; i++) {
                 String line = lines[i];
                 boolean comment = false;
@@ -141,23 +140,20 @@ public class Main {
                             break;
                         case "jid":
                             addNote(NoteName.values()[programCounter + 5], false);
-                            System.out.println(programCounter + 5);
+                            //System.out.println(programCounter + 5);
                             break;
                         case "end":
                             addChord(JumpChord.class);
                             addNote(NoteName.values()[labelCounter - 1], false);
                             break;
                         default:
-                            if (Pattern.compile("^_.*:$").matcher(part).find()) {
-                                //labels.put(part.substring(0, part.length() - 1), labelCounter);
-                            } else if (Pattern.compile("^\\d+$").matcher(part).find()) { // number
+                            if (Pattern.compile("^\\d+$").matcher(part).find()) { // number
                                 addNote(NoteName.values()[Integer.parseInt(part)], false);
                             } else if (Pattern.compile("^_.*[^:]$").matcher(part).find()) {
-                                System.out.println(part);
                                 addNote(NoteName.values()[labels.get(part)], false);
                             } else if (Pattern.compile("^;.*").matcher(part).find()) {
                                 comment = true;
-                            } else if (!(part.equals(" ") || part.isEmpty() || part.equals("\n") ||  part.equals("\r\n") ||  part.equals("\t"))) {
+                            } else if (!(part.equals(" ") || part.isEmpty() || part.equals("\n") ||  part.equals("\r\n") ||  part.equals("\t")) && !(Pattern.compile("^_.*:$").matcher(part).find())) {
                                 throw new IllegalArgumentException(String.format("Syntax error on line %s, with part %s", i + 1, part));
                             }
                     }
@@ -171,8 +167,8 @@ public class Main {
                 org.hazelv.chime.lang.Main.main(new String[]{outputFile.getPath()});
             }
         } catch (Exception e) {
-            System.err.println("Error: " + e.getMessage());
-            e.printStackTrace();
+            System.err.println("Error: " + e.getClass() + ": " + e.getMessage());
+            System.err.println(Arrays.toString(e.getStackTrace()));
         }
     }
 
