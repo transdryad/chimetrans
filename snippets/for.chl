@@ -1,0 +1,13 @@
+bgn          ;example of a for loop.
+ldi 0
+psh 1
+_loop:
+pop 1
+add cva 1
+psh 1
+psh 2
+;your code here
+pop 2
+evl cva 5 ; replace with num of reps.
+jeq _loop 1
+pln

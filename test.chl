@@ -1,14 +1,14 @@
 bgn          ;this is what a comment looks like in this silly little language.
 ldi 0        ;this program takes interactive input and prints the first five characters back.
-psh 0
-_loop:
-pop 0
-add cva 1
-psh 0
 psh 1
+_loop:
+pop 1
+add cva 1
+psh 1
+psh 2
 ipt
 pch
-pop 1
+pop 2
 evl cva 5
 jeq _loop 1
-pln
+end

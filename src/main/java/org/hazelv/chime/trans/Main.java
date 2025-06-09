@@ -62,7 +62,27 @@ public class Main {
             inputString = new String(bytes, Charset.defaultCharset());
 
             String[] lines = inputString.split("\n");
+            int labelCounter = 1;
             for (String line : lines) {
+                boolean comment = false;
+                String[] parts = line.split(" ");
+                for (String part : parts) {
+                    if (comment) break;
+                    if (!(part.equals(" ") || part.isEmpty() || part.equals("\n") ||  part.equals("\r\n") ||  part.equals("\t"))) {
+                        if (Pattern.compile("^_.*:$").matcher(part).find()) {
+                            labels.put(part.substring(0, part.length() - 1), labelCounter);
+                        }
+                        if (Pattern.compile("^;.*").matcher(part).find()) {
+                            comment = true;
+                        } else {
+                            labelCounter++;
+                        }
+                    }
+                }
+            }
+            System.out.println(labels);
+            for (int i = 0;  i < lines.length; i++) {
+                String line = lines[i];
                 boolean comment = false;
                 String[] parts = line.split(" ");
                 //System.out.println(Arrays.toString(parts));
@@ -118,21 +138,31 @@ public class Main {
                         case "pop":
                             addChord(PopChord.class);
                             break;
+                        case "jid":
+                            addNote(NoteName.values()[programCounter + 5], false);
+                            break;
+                        case "end":
+                            addChord(JumpChord.class);
+                            addNote(NoteName.values()[labelCounter], false);
+                            break;
                         default:
-                            if (Pattern.compile("^\\d+$").matcher(part).find()) { // number
+                            if (Pattern.compile("^_.*:$").matcher(part).find()) {
+                                //labels.put(part.substring(0, part.length() - 1), labelCounter);
+                            } else if (Pattern.compile("^\\d+$").matcher(part).find()) { // number
                                 addNote(NoteName.values()[Integer.parseInt(part)], false);
-                            } else if (Pattern.compile("^_.*:$").matcher(part).find()) {
-                                labels.put(part.substring(0, part.length() - 1), programCounter);
-                            } else if (Pattern.compile("^_.*").matcher(part).find()) {
+                            } else if (Pattern.compile("^_.*[^:]$").matcher(part).find()) {
+                                System.out.println(part);
                                 addNote(NoteName.values()[labels.get(part)], false);
                             } else if (Pattern.compile("^;.*").matcher(part).find()) {
                                 comment = true;
                             } else if (!(part.equals(" ") || part.isEmpty() || part.equals("\n") ||  part.equals("\r\n") ||  part.equals("\t"))) {
-                                throw new IllegalArgumentException("Invalid.");
+                                throw new IllegalArgumentException(String.format("Syntax error on line %s, with part %s", i + 1, part));
                             }
                     }
                 }
             }
+
+            addChord(PrintLnChord.class);
 
             MidiSystem.write(sequence, 1, outputFile);
             if (now) {
