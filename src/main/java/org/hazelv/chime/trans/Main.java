@@ -63,9 +63,11 @@ public class Main {
 
             String[] lines = inputString.split("\n");
             for (String line : lines) {
+                boolean comment = false;
                 String[] parts = line.split(" ");
                 //System.out.println(Arrays.toString(parts));
                 for (String part : parts) {
+                    if (comment) break;
                     switch (part) {
                         case "bgn": // start header
                             addChord(StartChord.class);
@@ -123,6 +125,8 @@ public class Main {
                                 labels.put(part.substring(0, part.length() - 1), programCounter);
                             } else if (Pattern.compile("^_.*").matcher(part).find()) {
                                 addNote(NoteName.values()[labels.get(part)], false);
+                            } else if (Pattern.compile("^;.*").matcher(part).find()) {
+                                comment = true;
                             } else {
                                 throw new IllegalArgumentException("Invalid.");
                             }

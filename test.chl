@@ -1,7 +1,7 @@
-bgn
+bgn ;this is what a comment looks like in this silly little language.
 ldi 0
 psh 0
-_loop1:
+_loop:
 pop 0
 add cva 1
 psh 0
@@ -10,5 +10,5 @@ ipt
 pch
 pop 1
 evl cva 5
-jeq _loop1 1
+jeq _loop 1
 pln
