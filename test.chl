@@ -1,5 +1,5 @@
-bgn ;this is what a comment looks like in this silly little language.
-ldi 0
+bgn ;  this is what a comment looks like in this silly little language.
+ldi 0 ;this program takes interactive input and prints the first five characters back.
 psh 0
 _loop:
 pop 0
