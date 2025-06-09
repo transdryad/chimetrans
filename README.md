@@ -16,6 +16,14 @@ You should have received a copy of the GNU General Public License along with Chi
 
 The GPL also applies to the files within the snippets and libs directories.
 
+# Usage
+
+```bash
+java -jar chimetrans-1.0-all.jar <filename.chl>
+```
+
+Use with --now for immediate execution. Use -o <outputfilename> to specify an output file.
+
 # Language reference:
 
 There is a hidden accumulator variable that is often used to store the result of instructions: currentVal.
