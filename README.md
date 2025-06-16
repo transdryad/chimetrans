@@ -1,5 +1,5 @@
 # Chime-Trans
-In honor of pride month, a transpiler/assembler from pseudo assembly code to Chime.
+In honor of pride month, a transpiler/assembler from pseudo assembly code to Chime (my lanmguage/bytecode? in midi files).
 
 For examples of basic programming concepts implemented in this assembly, see the snippets folder or any file with a .chl extension.
 
@@ -23,6 +23,11 @@ java -jar chimetrans-1.0-all.jar <filename.chl>
 ```
 
 Use with --now for immediate execution. Use -o <outputfilename> to specify an output file.
+
+# Why & How
+
+I made this because it's very annoying to write code in a sheet music editor.
+I struggled a lot with making labels and functions properly refer to the correct instruction. Turns out, it was an off-by-one error.
 
 # Language reference:
 
